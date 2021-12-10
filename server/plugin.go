@@ -192,7 +192,7 @@ func (p *Plugin) updateJwtUserInfo(jwtToken string, user *model.User) (string, e
 	newContext := Context{
 		User: User{
 			Avatar: fmt.Sprintf("%s/api/v4/users/%s/image?_=%d", *config.ServiceSettings.SiteURL, sanitizedUser.Id, sanitizedUser.LastPictureUpdate),
-			Name:   sanitizedUser.GetDisplayName(model.SHOW_NICKNAME_FULLNAME),
+			Name:   sanitizedUser.GetDisplayName(model.SHOW_USERNAME),
 			Email:  sanitizedUser.Email,
 			ID:     sanitizedUser.Id,
 		},
@@ -238,7 +238,7 @@ func (p *Plugin) startMeeting(user *model.User, channel *model.Channel, meetingI
 						ID:    "jitsi.start_meeting.personal_meeting_topic",
 						Other: "{{.Name}}'s Personal Meeting",
 					},
-					TemplateData: map[string]string{"Name": user.GetDisplayName(model.SHOW_NICKNAME_FULLNAME)},
+					TemplateData: map[string]string{"Name": user.GetDisplayName(model.SHOW_USERNAME)},
 				})
 				meetingPersonal = true
 			} else {
@@ -430,7 +430,7 @@ func (p *Plugin) askMeetingType(user *model.User, channel *model.Channel, rootID
 			URL: apiURL,
 			Context: map[string]interface{}{
 				"meeting_id":    generatePersonalMeetingName(user.Username),
-				"meeting_topic": fmt.Sprintf("%s's Meeting", user.GetDisplayName(model.SHOW_NICKNAME_FULLNAME)),
+				"meeting_topic": fmt.Sprintf("%s's Meeting", user.GetDisplayName(model.SHOW_USERNAME)),
 				"personal":      true,
 			},
 		},
